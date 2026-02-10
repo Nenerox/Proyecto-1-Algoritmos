@@ -1,5 +1,7 @@
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Stack {
@@ -38,6 +40,16 @@ public class Stack {
 
     //Para el metodo --trace Fase 2
     public String peekAll() {
-        return "TOP -->" + stack.iterator() + "<-- BOTTOM";
+        StringBuilder sb = new StringBuilder();
+        sb.append("TOP[");
+
+        Iterator<byte[]> it = stack.iterator();
+        while (it.hasNext()) {
+            sb.append(Arrays.toString(it.next()));
+            if (it.hasNext()) sb.append(", ");
+        }
+
+        sb.append("]BOTTOM");
+        return sb.toString();
     }
 }
