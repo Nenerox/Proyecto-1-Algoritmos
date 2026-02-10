@@ -30,6 +30,14 @@ public class Stack {
         return stack.peek();
     }
 
+    public boolean peekBoolean() {
+        byte[] top = peek();
+        if(Arrays.equals(top, new byte[] {0})) {
+            return false;
+        } 
+        return true;
+    }
+
     public boolean isEmpty() {
         return stack.isEmpty();
     }
