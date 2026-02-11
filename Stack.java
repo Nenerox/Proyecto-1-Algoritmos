@@ -30,8 +30,8 @@ public class Stack {
         return stack.peek();
     }
 
-    public boolean peekBoolean() {
-        byte[] top = peek();
+    public boolean popBoolean() {
+        byte[] top = pop();
         if(Arrays.equals(top, new byte[] {0})) {
             return false;
         } 
