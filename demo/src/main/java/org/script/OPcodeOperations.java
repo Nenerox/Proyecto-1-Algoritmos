@@ -1,3 +1,4 @@
+package org.script;
 import java.util.Arrays;
 
 public class OPcodeOperations {
@@ -52,8 +53,6 @@ public class OPcodeOperations {
             throw new RuntimeException("OP_EQUALVERIFY failed");
         }
     }
-    
-
 
 
     /*Todo:
