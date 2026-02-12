@@ -1,0 +1,6 @@
+# Script de ejemplo simple
+# "hello" en hexadecimal es: 68656c6c6f
+
+<68656c6c6f>
+<68656c6c6f>
+OP_EQUAL
