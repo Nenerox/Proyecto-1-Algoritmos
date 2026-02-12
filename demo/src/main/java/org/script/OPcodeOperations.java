@@ -50,10 +50,6 @@ public class OPcodeOperations {
             throw new RuntimeException("OP_EQUALVERIFY failed");
         }
     }
-
-    /**
-     * FASE 1 - Operaciones criptográficas
-     */
     public void OP_HASH160(Stack ScriptStack) {
         byte[] data = ScriptStack.pop();
         byte[] hash = CryptoOperations.hash160(data);
