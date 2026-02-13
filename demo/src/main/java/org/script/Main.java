@@ -11,24 +11,15 @@ package org.script;
 
 public class Main {
     public static void main(String[] args) {
-        interpreter interpreter = new interpreter();
 
         System.out.println("╔════════════════════════════════════════╗");
         System.out.println("║  BITCOIN SCRIPT INTERPRETER - Fase 1   ║");
         System.out.println("╚════════════════════════════════════════╝\n");
 
-        String[] script = {
-            "<0101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101>",
-            "<020202020202020202020202020202020202020202020202020202020202020202>",
-            "OP_DUP",
-            "OP_HASH160",
-            "<A9A8D4AE65DE409A1EF6AB6608F0CE3FED019438>",
-            "OP_EQUALVERIFY",
-            "OP_CHECKSIG"
-        };
+        // Read script from txt.file
+        TXTReader reader = new TXTReader();
+        String ruta = "script.txt";
+        reader.procesarArchivo(ruta);
 
-        boolean resutlado = interpreter.evaluateScript(script);
-
-        System.out.print("resultado: " + resutlado);
     }
 }

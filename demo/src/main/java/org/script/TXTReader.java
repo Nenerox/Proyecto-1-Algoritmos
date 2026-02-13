@@ -5,12 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class ManagerPDF {
+public class TXTReader {
     // Atributo
     private interpreter interprete;
     
     // Constructor
-    public ManagerPDF() {
+    public TXTReader() {
         this.interprete = new interpreter();
     }
     
@@ -27,7 +27,7 @@ public class ManagerPDF {
             resultado += linea + " ";
         }
         br.close();
-        
+
         return resultado.trim().split("\\s+");
     }
     
