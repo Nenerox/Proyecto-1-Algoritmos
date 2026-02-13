@@ -9,6 +9,8 @@
 
 package org.script;
 
+import java.io.File;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -19,7 +21,16 @@ public class Main {
         // Read script from txt.file
         TXTReader reader = new TXTReader();
         String ruta = "script.txt";
-        reader.procesarArchivo(ruta);
+        String[] script = reader.leerArchivo(new File(ruta));
+        System.out.println("Script cargado:");
+        // Print the whole script in one line
+        for (String inst : script) {
+            System.out.print(inst + " ");
+        }
+        Interpreter interprete = new Interpreter();
+        System.out.println("\n\nEvaluando script...");
+        boolean resultado = interprete.evaluateScript(script);
+        System.out.println("\nResultado de la evaluación: " + (resultado) + "\n");
 
     }
 }

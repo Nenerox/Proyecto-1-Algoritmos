@@ -3,8 +3,8 @@ package org.script;
 import java.util.HashMap;
 import java.util.Map;
 
-public class interpreter {
-    private Stack Scriptstack;
+public class Interpreter {
+    private Stack scriptStack;
     private OPcodeOperations operations;
     private Map<String, OPcode> tablaOpCodes;
 
@@ -12,8 +12,8 @@ public class interpreter {
     Crea y asigna los objetos para guardar y llamar los diferentes metodos necesarios
     Llama al metodo para asignar los OPcodes
      */
-    public interpreter() {
-        this.Scriptstack = new Stack();
+    public Interpreter() {
+        this.scriptStack = new Stack();
         this.operations = new OPcodeOperations();
         this.tablaOpCodes = new HashMap<>();
         registrarOPcodes();
@@ -41,8 +41,8 @@ public class interpreter {
             for (String inst : script) {
                 ejecutar(inst);
             }
-            if (Scriptstack.isEmpty()) return false;
-            return Scriptstack.popBoolean();
+            if (scriptStack.isEmpty()) return false;
+            return scriptStack.popBoolean();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return false;
@@ -58,7 +58,7 @@ public class interpreter {
             try {
                 int value = Integer.parseInt(inst.substring(3));
                 if (value >= 2 && value <=16) {
-                    operations.OP_2_16(Scriptstack, (byte) value);
+                    operations.OP_2_16(scriptStack, (byte) value);
                     return;
                 }
             } catch (NumberFormatException  ignored) {
@@ -67,14 +67,14 @@ public class interpreter {
 
         if (inst.startsWith("<") && inst.endsWith(">")) {
             String data = inst.substring(1, inst.length() - 1);
-            operations.OP_PUSHDATA(Scriptstack, hexToBytes(data));
+            operations.OP_PUSHDATA(scriptStack, hexToBytes(data));
             return;
         }
 
         OPcode OP = tablaOpCodes.get(inst);
 
         if (OP != null){
-            OP.execute(Scriptstack);
+            OP.execute(scriptStack);
             return;
         }
         throw new IllegalArgumentException("Instrucción desconocida: " + inst);
@@ -93,6 +93,6 @@ public class interpreter {
     }
 
     public void reset() {
-        Scriptstack.clear();
+        scriptStack.clear();
     }
 }
