@@ -30,7 +30,7 @@ public class interpreter {
         tablaOpCodes.put("OP_EQUAL", operations::OP_EQUAL);
         tablaOpCodes.put("OP_EQUALVERIFY", operations::OP_EQUALVERIFY);
         tablaOpCodes.put("OP_CHECKSIG", operations::OP_CHECKSIG);
-        tablaOpCodes.put("OP_HAS160", operations::OP_HASH160);
+        tablaOpCodes.put("OP_HASH160", operations::OP_HASH160);
     }
 
     /**
