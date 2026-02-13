@@ -14,13 +14,6 @@ public class ManagerPDF {
         this.interprete = new interpreter();
     }
     
-<<<<<<< HEAD
-=======
-    /**
-     * Lee un archivo .txt y convierte cada línea en una instrucción
-     * Lee de izquierda a derecha y cada elemento separado por espacio es una instrucción
-     */
->>>>>>> a138ea29c533fb8cb83f6e93eb75140b424039ec
     private String[] leerArchivo(File archivo) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
         String linea;
@@ -35,7 +28,6 @@ public class ManagerPDF {
         }
         br.close();
         
-        // Dividir por espacios - cada elemento es una instrucción completa
         return resultado.trim().split("\\s+");
     }
     
@@ -48,19 +40,14 @@ public class ManagerPDF {
         try {
             System.out.println("Procesando: " + archivo.getName());
             System.out.println();
-            
-            // Leer archivo y convertir a array de instrucciones
             String[] script = leerArchivo(archivo);
-            
             System.out.println("Script cargado:");
+
             for (int i = 0; i < script.length; i++) {
                 System.out.println((i+1) + ". " + script[i]);
             }
             System.out.println();
-            
-            // Evaluar el script
-            boolean resultado = interprete.evaluateScript(script);
-            
+            boolean resultado = interprete.evaluateScript(script);            
             if (resultado) {
                 System.out.println("SCRIPT VALIDO");
             } else {
