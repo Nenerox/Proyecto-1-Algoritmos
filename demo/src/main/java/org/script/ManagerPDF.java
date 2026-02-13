@@ -5,20 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-/**
- * Clase para leer y ejecutar scripts Bitcoin desde archivos .txt
- */
 public class ManagerPDF {
-    
+    // Atributo
     private interpreter interprete;
     
+    // Constructor
     public ManagerPDF() {
         this.interprete = new interpreter();
     }
     
-    /**
-     * Lee un archivo .txt y convierte cada línea en una instrucción
-     */
     private String[] leerArchivo(File archivo) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(archivo));
         String linea;
@@ -35,9 +30,6 @@ public class ManagerPDF {
         return resultado.trim().split("\\s+");
     }
     
-    /**
-     * Procesa un archivo de script
-     */
     public boolean procesarArchivo(String ruta) {
         File archivo = new File(ruta);
         if (!archivo.exists()) {
