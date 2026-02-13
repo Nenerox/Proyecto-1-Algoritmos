@@ -1,21 +1,21 @@
 # Bitcoin Script Interpreter - Proyecto 1
 
-## 📋 Descripción
+## Descripción
 Implementación de un intérprete de Bitcoin Script en Java que ejecuta y valida transacciones de Bitcoin. Este proyecto simula el funcionamiento de la máquina virtual de Bitcoin, procesando instrucciones de script y validando transacciones P2PKH (Pay to Public Key Hash).
 
-## 👥 Autores
+## Autores
 - **Andrés Pineda** - 25212 - [pin25212@uvg.edu.gt]
 - **Alejandro Sagastume** - 25257 - [vas25092@uvg.edu.gt]
 - **Jimena Vásquez** - 25092 - [sag25257@uvg.edu.gt]
 
-## 🚀 Características
+## Características
 
 ### Fase 1 (Implementada)
-- ✅ Lectura de scripts desde archivo `.txt`
-- ✅ Interpretación de OPcodes básicos de Bitcoin
-- ✅ Validación de transacciones P2PKH
-- ✅ Manejo de stack (pila) para operaciones
-- ✅ Operaciones criptográficas (HASH160, CHECKSIG)
+- Lectura de scripts desde archivo `.txt`
+- Interpretación de OPcodes básicos de Bitcoin
+- Validación de transacciones P2PKH
+- Manejo de stack (pila) para operaciones
+- Operaciones criptográficas (HASH160, CHECKSIG)
 
 ### OPcodes Implementados
 | OPcode | Descripción |
@@ -31,7 +31,7 @@ Implementación de un intérprete de Bitcoin Script en Java que ejecuta y valida
 | `OP_HASH160` | Aplica SHA-256 + RIPEMD-160 |
 | `OP_CHECKSIG` | Verifica firma digital |
 
-## 🏗️ Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 Proyecto-1-Algoritmos/
@@ -56,13 +56,13 @@ Proyecto-1-Algoritmos/
 └── README.md
 ```
 
-## 🔧 Requisitos
+## Requisitos
 
 - **Java:** JDK 17 o superior
 - **Maven:** 3.6+ (opcional)
 - **IDE recomendado:** IntelliJ IDEA, Eclipse, o VS Code
 
-## 📦 Instalación y Ejecución
+## Instalación y Ejecución
 
 ### 1. Clonar el repositorio
 ```bash
@@ -94,7 +94,7 @@ Edita el archivo `script.txt` con tu Bitcoin Script:
 <firma> <clave_publica> OP_DUP OP_HASH160 <hash_esperado> OP_EQUALVERIFY OP_CHECKSIG
 ```
 
-## 📝 Formato del Script
+## Formato del Script
 
 ### Ejemplo de script P2PKH válido:
 ```
@@ -107,7 +107,7 @@ Edita el archivo `script.txt` con tu Bitcoin Script:
 - **Comentarios:** Líneas que empiezan con `#` son ignoradas
 - **Espacios:** Pueden usarse para separar instrucciones
 
-## 🔍 Cómo Funciona
+## Cómo Funciona
 
 ### 1. Flujo de ejecución
 ```
@@ -129,7 +129,7 @@ TOP → [último elemento]
       [primer elemento] → BOTTOM
 ```
 
-## 🛠️ Fase 2 (Próximamente)
+## Fase 2 (Próximamente)
 
 ### OPcodes a implementar:
 - `OP_SWAP` - Intercambia dos elementos superiores
@@ -141,7 +141,7 @@ TOP → [último elemento]
 - `OP_LESSTHAN` / `OP_GREATERTHAN` - Comparaciones numéricas
 - `OP_NUMEQUALVERIFY` - Verificación de igualdad numérica
 
-## 🐛 Solución de Problemas
+## Solución de Problemas
 
 ### Error: "FileNotFoundException"
 **Causa:** El archivo `script.txt` no se encuentra
