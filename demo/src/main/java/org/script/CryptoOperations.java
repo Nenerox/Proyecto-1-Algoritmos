@@ -16,7 +16,30 @@ public class CryptoOperations {
             throw new RuntimeException("Error hash160");
         }
     }
-    
+
+    /*
+    public static byte[] hash256(byte[] data) {
+        try {
+            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            byte[] hash1 = sha256.digest(data);
+            byte[] hash2 = sha256.digest(hash1);
+            return hash2;
+        } catch (Exception e) {
+            throw new RuntimeException("Error hash256");
+        }
+    }
+    public static byte[] hash160(byte[] data) {
+        try {
+            MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+            MessageDigest ripemd160 = MessageDigest.getInstance("RIPEMD160");
+            byte[] hash1 = sha256.digest(data);
+            byte[] hash2 = ripemd160.digest(hash1);
+            return hash2;
+        } catch (Exception e) {
+            throw new RuntimeException("Error hash160");
+        }
+    }
+    */
     // Para OP_CHECKSIG
     public static boolean checkSignature(byte[] signature, byte[] publicKey) {
         if (signature == null || publicKey == null) return false;
