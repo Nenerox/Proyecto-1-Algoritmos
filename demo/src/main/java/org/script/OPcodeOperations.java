@@ -76,27 +76,4 @@ public class OPcodeOperations {
      * OP_LESSTHAN, OP_GREATERTHAN
      * OP_LESSTHANOREQUAL, OP_GREATERTHANOREQUAL
      */
-    
-    public void OP_SWAP(Stack ScriptStack) {
-        byte[] a = ScriptStack.pop();
-        byte[] b = ScriptStack.pop();
-        ScriptStack.push(a);
-        ScriptStack.push(b);
-    }
-
-    public void OP_OVER(Stack ScriptStack) {
-        byte[] a = ScriptStack.pop();
-        byte[] b = ScriptStack.peek();
-        ScriptStack.push(a);
-        ScriptStack.push(b);
-    }
-
-    public void OP_NOT(Stack ScriptStack) {
-        byte[] value = ScriptStack.pop();
-        if (value.length == 0 || (value.length == 1 && value[0] == 0)) {
-            ScriptStack.push(new byte[] {1});
-        } else {
-            ScriptStack.push(new byte[] {0});
-        }
-    }
 }
