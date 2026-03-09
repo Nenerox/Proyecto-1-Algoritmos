@@ -40,6 +40,7 @@ public class Interpreter {
         try {
             for (String inst : script) {
                 ejecutar(inst);
+                System.out.println(scriptStack.trace());
             }
             if (scriptStack.isEmpty()) return false;
             return scriptStack.popBoolean();
