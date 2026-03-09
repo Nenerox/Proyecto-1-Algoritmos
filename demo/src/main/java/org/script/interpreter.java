@@ -42,6 +42,14 @@ public class Interpreter {
     public boolean evaluateScript(String[] script) {
         try {
             for (String inst : script) {
+                if (inst.equals("OP_IF") || inst.equals("OP_ELSE")|| inst.equals("OP_ENDIF")) {
+                    manejarFlujo(inst);
+                    continue;
+                }
+                if (!existeIF()) {
+                    continue;
+                }
+
                 ejecutar(inst);
                 System.out.println(scriptStack.trace());
             }
@@ -84,6 +92,28 @@ public class Interpreter {
         throw new IllegalArgumentException("Instrucción desconocida: " + inst);
     }
 
+    private boolean existeIF(){
+        return stackFlujo.isEmpty() || stackFlujo.peek();
+    }
+
+    private void manejarFlujo(String inst){
+        if (inst.equals("OP_IF")) {
+            boolean condicion = popBoolean();
+            stackFlujo.push(condicion);
+        } else if (inst.equals("OP_ELSE")) {
+            if(stackFlujo.isEmpty()){
+                throw new RuntimeException("OP_ELSE sin previo OP_IF");
+            }
+            boolean actual = stackFlujo.pop();
+            stackFlujo.push(!actual);
+        } else if(inst.equals("OP_ENDIF")) {
+            if(stackFlujo.isEmpty()){
+                throw new RuntimeException("OP_ENDIF sin previo OP_IF");
+            }
+            stackFlujo.pop();
+        }
+    }
+
     /**
      * Convierte hexadecimal a bytes
      */
@@ -99,7 +129,7 @@ public class Interpreter {
      *  Devulve si el top del stack es true si es un valor diferente de cero 
      * Se movio de clase Stack ya que al hacer Stack generic no se puede utilizar al depender de que sean bytes.
      */
-    public boolean popBoolean() {
+    private boolean popBoolean() {
         byte[] top = scriptStack.pop();
         return !Arrays.equals(top, new byte[] {0});
     }
