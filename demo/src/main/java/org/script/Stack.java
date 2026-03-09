@@ -33,10 +33,7 @@ public class Stack {
 
     public boolean popBoolean() {
         byte[] top = pop();
-        if(Arrays.equals(top, new byte[] {0})) {
-            return false;
-        } 
-        return true;
+        return !Arrays.equals(top, new byte[] {0});
     }
 
     public boolean isEmpty() {
@@ -48,17 +45,17 @@ public class Stack {
     }
 
     //Para el metodo --trace Fase 2
-    public String peekAll() {
+    public String trace() {
         StringBuilder sb = new StringBuilder();
-        sb.append("TOP[");
+        sb.append("TOP( ");
 
         Iterator<byte[]> it = stack.iterator();
         while (it.hasNext()) {
             sb.append(Arrays.toString(it.next()));
-            if (it.hasNext()) sb.append(", ");
+            if (it.hasNext()) sb.append(" >> ");
         }
 
-        sb.append("]BOTTOM");
+        sb.append(" )BOTTOM");
         return sb.toString();
     }
 }
