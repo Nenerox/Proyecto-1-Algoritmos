@@ -42,17 +42,10 @@ public class Interpreter {
     public boolean evaluateScript(String[] script) {
         try {
             for (String inst : script) {
-                if (inst.equals("OP_IF") || inst.equals("OP_ELSE")|| inst.equals("OP_ENDIF")) {
-                    manejarFlujo(inst);
-                    continue;
-                }
-                if (!existeIF()) {
-                    continue;
-                }
-
                 ejecutar(inst);
                 System.out.println(scriptStack.trace());
             }
+
             if (scriptStack.isEmpty()) return false;
             return popBoolean();
         } catch (Exception e) {
@@ -65,6 +58,28 @@ public class Interpreter {
      Ejecuta los metodos de Opcodes dependiendo de la instruccion actual
      */
     private void ejecutar(String inst) {
+
+        if (inst.equals("OP_IF") || inst.equals("OP_ELSE")|| inst.equals("OP_ENDIF") || inst.equals("OP_NOTIF")) {
+            manejarFlujo(inst);
+            return;
+        }
+
+        if (!existeIF()) {
+            return;
+        }
+
+        if (inst.equals("OP_RETURN")) {
+            throw new RuntimeException("OP_RETURN ejecutado");
+        }
+
+        if (inst.equals("OP_VERIFY")){
+            boolean condicion = popBoolean();
+            if (!condicion){
+                throw new RuntimeException("OP_VERIFY fallido");
+            }
+            return;
+        }
+
         //Se maneja el ingreso de OP_2 a 16 y pushdata individualmente por su caso especial de datos
         if (inst.startsWith("OP_")) {
             try {
@@ -100,6 +115,9 @@ public class Interpreter {
         if (inst.equals("OP_IF")) {
             boolean condicion = popBoolean();
             stackFlujo.push(condicion);
+        } else if (inst.equals("OP_NOTIF")) {
+            boolean condicion = popBoolean();
+            stackFlujo.push(!condicion);
         } else if (inst.equals("OP_ELSE")) {
             if(stackFlujo.isEmpty()){
                 throw new RuntimeException("OP_ELSE sin previo OP_IF");
