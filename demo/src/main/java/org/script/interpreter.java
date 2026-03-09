@@ -1,10 +1,12 @@
 package org.script;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Interpreter {
-    private Stack scriptStack;
+    private Stack<byte[]> scriptStack;
+    private Stack<Boolean> stackFlujo;
     private OPcodeOperations operations;
     private Map<String, OPcode> tablaOpCodes;
 
@@ -13,7 +15,8 @@ public class Interpreter {
     Llama al metodo para asignar los OPcodes
      */
     public Interpreter() {
-        this.scriptStack = new Stack();
+        this.scriptStack = new Stack<>();
+        this.stackFlujo = new Stack<>();
         this.operations = new OPcodeOperations();
         this.tablaOpCodes = new HashMap<>();
         registrarOPcodes();
@@ -43,7 +46,7 @@ public class Interpreter {
                 System.out.println(scriptStack.trace());
             }
             if (scriptStack.isEmpty()) return false;
-            return scriptStack.popBoolean();
+            return popBoolean();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return false;
@@ -91,6 +94,14 @@ public class Interpreter {
                     + Character.digit(hex.charAt(i+1), 16));
         }
         return data;
+    }
+    /**
+     *  Devulve si el top del stack es true si es un valor diferente de cero 
+     * Se movio de clase Stack ya que al hacer Stack generic no se puede utilizar al depender de que sean bytes.
+     */
+    public boolean popBoolean() {
+        byte[] top = scriptStack.pop();
+        return !Arrays.equals(top, new byte[] {0});
     }
 
     public void reset() {
