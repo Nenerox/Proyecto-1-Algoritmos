@@ -43,7 +43,8 @@ public class Interpreter {
         try {
             for (String inst : script) {
                 ejecutar(inst);
-                System.out.println(scriptStack.trace());
+                System.out.println("Instruccion actual: " + inst);
+                System.out.println(scriptStack.trace()+"\n");
             }
 
             if (scriptStack.isEmpty()) return false;

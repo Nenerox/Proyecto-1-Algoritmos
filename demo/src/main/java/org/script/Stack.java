@@ -41,7 +41,7 @@ public class Stack<T> {
     //Para el metodo --trace Fase 2
     public String trace() {
         StringBuilder sb = new StringBuilder();
-        sb.append("TOP( ");
+        sb.append("TOP ( ");
 
         Iterator<T> it = stack.iterator();
         while (it.hasNext()) {
@@ -55,7 +55,7 @@ public class Stack<T> {
             if (it.hasNext()) sb.append(" >> ");
         }
 
-        sb.append(" )BOTTOM");
+        sb.append(" ) BOTTOM");
         return sb.toString();
     }
 
