@@ -18,7 +18,7 @@ public class TXTReader {
                 if (linea.isEmpty() || linea.startsWith("#")) {
                 continue;
             }
-            resultado += linea + " ";        
+            resultado += linea + " NL ";        
             }
             br.close(); 
         } catch (FileNotFoundException fileNotFoundException) {

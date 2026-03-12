@@ -43,8 +43,13 @@ public class Interpreter {
         try {
             for (String inst : script) {
                 ejecutar(inst);
-                System.out.println("Instruccion actual: " + inst);
-                System.out.println(scriptStack.trace()+"\n");
+                if (inst.equals("NL")){
+                    System.out.println("Nueva linea de instrucciones. Limpiando pilas.");
+                    System.out.println(scriptStack.trace()+"\n");
+                }   else {
+                    System.out.println("Instruccion realizada: " + inst);
+                    System.out.println(scriptStack.trace()+"\n");
+                }
             }
 
             if (scriptStack.isEmpty()) return false;
@@ -59,6 +64,12 @@ public class Interpreter {
      Ejecuta los metodos de Opcodes dependiendo de la instruccion actual
      */
     private void ejecutar(String inst) {
+
+        if(inst.equals("NL")){
+            scriptStack.clear();
+            stackFlujo.clear();
+            return;
+        }
 
         if (inst.equals("OP_IF") || inst.equals("OP_ELSE")|| inst.equals("OP_ENDIF") || inst.equals("OP_NOTIF")) {
             manejarFlujo(inst);
