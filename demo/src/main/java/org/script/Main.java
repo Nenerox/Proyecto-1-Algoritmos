@@ -20,7 +20,7 @@ public class Main {
 
         // Read script from txt.file
         TXTReader reader = new TXTReader();
-        String ruta = "script.txt";
+        String ruta = "Condicionales.txt";
         String[] script = reader.leerArchivo(new File(ruta));
         System.out.println("Script cargado:");
         // Print the whole script in one line
