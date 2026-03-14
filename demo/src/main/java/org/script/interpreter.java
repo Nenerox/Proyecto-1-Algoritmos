@@ -34,6 +34,8 @@ public class Interpreter {
         tablaOpCodes.put("OP_EQUALVERIFY", operations::OP_EQUALVERIFY);
         tablaOpCodes.put("OP_CHECKSIG", operations::OP_CHECKSIG);
         tablaOpCodes.put("OP_HASH160", operations::OP_HASH160);
+        tablaOpCodes.put("OP_ADD", operations::OP_ADD);
+        tablaOpCodes.put("OP_SUB", operations::OP_SUB);
     }
 
     /**
@@ -52,7 +54,7 @@ public class Interpreter {
                 }
             }
 
-            if (scriptStack.isEmpty()) return false;
+        if (scriptStack.isEmpty()) return false;
             return popBoolean();
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
@@ -155,14 +157,17 @@ public class Interpreter {
         }
         return data;
     }
+
     /**
-     *  Devulve si el top del stack es true si es un valor diferente de cero 
+     * Devulve si el top del stack es true si es un valor diferente de cero 
      * Se movio de clase Stack ya que al hacer Stack generic no se puede utilizar al depender de que sean bytes.
      */
+
     private boolean popBoolean() {
         byte[] top = scriptStack.pop();
         return !Arrays.equals(top, new byte[] {0});
     }
+
 
     public void reset() {
         scriptStack.clear();

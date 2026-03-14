@@ -105,4 +105,40 @@ public class OPcodeOperations {
             ScriptStack.push(new byte[] {0});
         }
     }
+    public void OP_ADD(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        byte[] result = new byte[Math.max(a.length, b.length) + 1];
+        int carry = 0;
+        for (int i = 0; i < result.length; i++) {
+            int sum = carry;
+            if (i < a.length) sum += a[i] & 0xFF;
+            if (i < b.length) sum += b[i] & 0xFF;
+            result[i] = (byte) (sum & 0xFF);
+            carry = sum >> 8;
+        }
+        int len = result.length;
+        while (len > 1 && result[len - 1] == 0) len--;
+        ScriptStack.push(Arrays.copyOf(result, len));
+    }
+    
+    public void OP_SUB(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        byte[] result = new byte[Math.max(a.length, b.length) + 1];
+        int borrow = 0;
+        for (int i = 0; i < result.length; i++) {
+            int diff = (b.length > i ? b[i] & 0xFF : 0) - (a.length > i ? a[i] & 0xFF : 0) - borrow;
+            if (diff < 0) {
+                diff += 256;
+                borrow = 1;
+            } else {
+                borrow = 0;
+            }
+            result[i] = (byte) (diff & 0xFF);
+        }
+        int len = result.length;
+        while (len > 1 && result[len - 1] == 0) len--;
+        ScriptStack.push(Arrays.copyOf(result, len));
+    }
 }

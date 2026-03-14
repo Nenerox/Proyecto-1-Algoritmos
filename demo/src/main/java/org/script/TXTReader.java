@@ -17,7 +17,7 @@ public class TXTReader {
                 linea = linea.trim();
                 if (linea.isEmpty() || linea.startsWith("#")) {
                 continue;
-            }
+                }
             resultado += linea + " NL ";        
             }
             br.close(); 
