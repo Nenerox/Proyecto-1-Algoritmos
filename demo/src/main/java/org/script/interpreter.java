@@ -10,10 +10,9 @@ public class Interpreter {
     private OPcodeOperations operations;
     private Map<String, OPcode> tablaOpCodes;
 
-    /*
-    Crea y asigna los objetos para guardar y llamar los diferentes metodos necesarios
-    Llama al metodo para asignar los OPcodes
-     */
+   /**
+    * Constructor del intérprete, inicializa las pilas, la clase de operaciones y registra los OPcodes en un hash map para su fácil acceso.
+    */
     public Interpreter() {
         this.scriptStack = new Stack<>();
         this.stackFlujo = new Stack<>();
@@ -22,9 +21,9 @@ public class Interpreter {
         registrarOPcodes();
     }
 
-    /*
-    Se registran todos los metodos de OPcodes en un hash map para poder ser llamados de manera sencilla
-    */
+    /**
+     * Registra los OPcodes en un hash map para su fácil acceso durante la ejecución del script. Cada OPcode se asocia con su método correspondiente en la clase OPcodeOperations.
+     */
     private void registrarOPcodes(){
         tablaOpCodes.put("OP_0", operations::OP_0);
         tablaOpCodes.put("OP_1", operations::OP_1);
@@ -36,10 +35,13 @@ public class Interpreter {
         tablaOpCodes.put("OP_HASH160", operations::OP_HASH160);
         tablaOpCodes.put("OP_ADD", operations::OP_ADD);
         tablaOpCodes.put("OP_SUB", operations::OP_SUB);
+        tablaOpCodes.put("OP_NUMEQUALVERIFY", operations::OP_NUMEQUALVERIFY);
     }
 
     /**
-     * Evalúa un script completo
+     * Evalúa un script dado como un array de strings, ejecutando cada instrucción en orden.
+     * @param script el script a evaluar, representado como un array de strings donde cada string es una instrucción u operación
+     * @return true si el resultado final en la stack es verdadero, false si es falso o si ocurre algún error durante la ejecución
      */
     public boolean evaluateScript(String[] script) {
         try {
@@ -62,8 +64,9 @@ public class Interpreter {
         }
     }
 
-    /*
-     Ejecuta los metodos de Opcodes dependiendo de la instruccion actual
+    /**
+     * Ejecuta los metodos de Opcodes dependiendo de la instruccion actual
+     * @param inst la instrucción a ejecutar, que puede ser un OPcode, un valor a pushear o una instrucción de control de flujo
      */
     private void ejecutar(String inst) {
 
@@ -120,11 +123,16 @@ public class Interpreter {
         }
         throw new IllegalArgumentException("Instrucción desconocida: " + inst);
     }
-
+    /**
+     * Verifica si el bloque actual de ejecución está dentro de un OP_IF o OP_NOTIF que se evalúa como verdadero. 
+     */
     private boolean existeIF(){
         return stackFlujo.isEmpty() || stackFlujo.peek();
     }
-
+    /**
+     * Maneja las instrucciones de control de flujo OP_IF, OP_NOTIF, OP_ELSE y OP_ENDIF. 
+     * @param inst la instrucción de control de flujo a manejar (OP_IF, OP_NOTIF, OP_ELSE, OP_ENDIF)
+     */
     private void manejarFlujo(String inst){
         if (inst.equals("OP_IF")) {
             boolean condicion = popBoolean();
@@ -147,7 +155,9 @@ public class Interpreter {
     }
 
     /**
-     * Convierte hexadecimal a bytes
+     * Convierte una cadena hexadecimal a un arreglo de bytes.
+     * @param hex la cadena hexadecimal a convertir
+     * @return byte[] el arreglo de bytes resultante de la conversión 
      */
     private byte[] hexToBytes(String hex) {
         byte[] data = new byte[hex.length() / 2];
@@ -159,7 +169,7 @@ public class Interpreter {
     }
 
     /**
-     * Devulve si el top del stack es true si es un valor diferente de cero 
+     * Devuelve si el top del stack es true si es un valor diferente de cero 
      * Se movio de clase Stack ya que al hacer Stack generic no se puede utilizar al depender de que sean bytes.
      */
 
@@ -168,7 +178,9 @@ public class Interpreter {
         return !Arrays.equals(top, new byte[] {0});
     }
 
-
+    /**
+     * Resetear el stack
+     */
     public void reset() {
         scriptStack.clear();
     }

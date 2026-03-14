@@ -1,10 +1,9 @@
 /**
  * Proyecto 1: Fase 1 - Bitcoin Script Interpreter
- * Integrantes:
- *      - Andrés Pineda          25212
- *      - Alejandro Sagastume    25257
- *      - Jimena Vásquez         25092
- * Clase Main que inicia el programa, lee un archivo de texto con un script Bitcoin y lo evalúa usando la clase ManagerPDF.
+ * @author Andrés Pineda          25212
+ * @author Alejandro Sagastume    25257
+ * @author Jimena Vásquez         25092
+ * @file Clase Main que inicia el programa, lee un archivo de texto con un script Bitcoin y lo evalúa usando la clase ManagerPDF.
  */
 
 package org.script;

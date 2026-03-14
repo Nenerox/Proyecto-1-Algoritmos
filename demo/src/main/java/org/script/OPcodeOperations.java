@@ -121,7 +121,7 @@ public class OPcodeOperations {
         while (len > 1 && result[len - 1] == 0) len--;
         ScriptStack.push(Arrays.copyOf(result, len));
     }
-    
+
     public void OP_SUB(Stack<byte[]> ScriptStack) {
         byte[] a = ScriptStack.pop();
         byte[] b = ScriptStack.pop();
@@ -140,5 +140,18 @@ public class OPcodeOperations {
         int len = result.length;
         while (len > 1 && result[len - 1] == 0) len--;
         ScriptStack.push(Arrays.copyOf(result, len));
+    }
+    public void OP_NUMEQUALVERIFY(Stack<byte[]> ScriptStack) {
+        // OP_NUMEQUAL con OP_VERIFY
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        if (Arrays.equals(a, b)) {
+            ScriptStack.push(new byte[] {1});
+        } else {
+            ScriptStack.push(new byte[] {0});
+        }
+        if (!popBoolean(ScriptStack)) {
+            throw new RuntimeException("OP_NUMEQUALVERIFY failed");
+        }
     }
 }
