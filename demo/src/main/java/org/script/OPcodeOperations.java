@@ -53,7 +53,7 @@ public class OPcodeOperations {
 
     private boolean popBoolean(Stack<byte[]> stack) {
     byte[] top = stack.pop();
-    return !java.util.Arrays.equals(top, new byte[]{0});
+    return !Arrays.equals(top, new byte[]{0});
     }
 
     public void OP_HASH160(Stack<byte[]> ScriptStack) {
@@ -152,6 +152,8 @@ public class OPcodeOperations {
         }
         if (!popBoolean(ScriptStack)) {
             throw new RuntimeException("OP_NUMEQUALVERIFY failed");
+        } else {
+            ScriptStack.push(new byte[] {1});
         }
     }
 }
