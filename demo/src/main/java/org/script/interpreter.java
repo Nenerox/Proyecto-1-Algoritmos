@@ -47,7 +47,7 @@ public class Interpreter {
         try {
             for (String inst : script) {
                 if (inst.equals("NL")){
-                    System.out.println("Resultado del script: " + popBoolean() + "\n");
+                    System.out.println("Resultado del script: " + resultadoFinal() + "\n");
                     System.out.println("Nueva linea de instrucciones. Limpiando pilas.");
                 }   else {
                     System.out.println("Instruccion realizada: " + inst);
@@ -62,6 +62,15 @@ public class Interpreter {
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return false;
+        }
+    }
+
+    private boolean resultadoFinal() {
+         if (scriptStack.isEmpty()){
+            return true;
+         } else {
+            byte[] top = scriptStack.peek();
+            return !Arrays.equals(top, new byte[] {0})
         }
     }
 
