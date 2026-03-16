@@ -46,18 +46,19 @@ public class Interpreter {
     public boolean evaluateScript(String[] script) {
         try {
             for (String inst : script) {
-                ejecutar(inst);
                 if (inst.equals("NL")){
+                    System.out.println("Resultado del script: " + popBoolean() + "\n");
                     System.out.println("Nueva linea de instrucciones. Limpiando pilas.");
-                    System.out.println(scriptStack.trace()+"\n");
                 }   else {
                     System.out.println("Instruccion realizada: " + inst);
-                    System.out.println(scriptStack.trace()+"\n");
                 }
+                ejecutar(inst);
+                System.out.println(scriptStack.trace()+"\n");
+
             }
 
-        if (scriptStack.isEmpty()) return false;
-            return popBoolean();
+        if (scriptStack.isEmpty());
+            return true;
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
             return false;

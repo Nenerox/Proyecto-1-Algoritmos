@@ -28,8 +28,6 @@ public class Main {
         }
         Interpreter interprete = new Interpreter();
         System.out.println("\n\nEvaluando script...");
-        boolean resultado = interprete.evaluateScript(script);
-        System.out.println("\nResultado de la evaluación: " + (resultado) + "\n");
-
+        interprete.evaluateScript(script);
     }
 }
