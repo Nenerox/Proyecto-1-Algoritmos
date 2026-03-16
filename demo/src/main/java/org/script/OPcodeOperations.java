@@ -152,8 +152,6 @@ public class OPcodeOperations {
         }
         if (!popBoolean(ScriptStack)) {
             throw new RuntimeException("OP_NUMEQUALVERIFY failed");
-        } else {
-            ScriptStack.push(new byte[] {1});
         }
     }
 }
