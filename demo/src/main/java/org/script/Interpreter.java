@@ -54,6 +54,7 @@ public class Interpreter {
      * Evalúa un script dado como un array de strings, ejecutando cada instrucción en orden.
      * @param script el script a evaluar, representado como un array de strings donde cada string es una instrucción u operación
      * @return true si el resultado final en la stack es verdadero, false si es falso o si ocurre algún error durante la ejecución
+     * @exception Exception si ocurre un error durante la ejecución del script, como una instrucción desconocida o un OP_VERIFY fallido
      */
     public boolean evaluateScript(String[] script) {
     try {
@@ -74,7 +75,10 @@ public class Interpreter {
         return false;
     }
 }
-
+    /**
+     * Devuelve el resultado final del script.
+     * @return true si el resultado final en la stack es verdadero, false si es falso o si la pila está vacía
+     */
     private boolean resultadoFinal() {
          if (scriptStack.isEmpty()){
             return true;
@@ -87,6 +91,9 @@ public class Interpreter {
     /**
      * Ejecuta los metodos de Opcodes dependiendo de la instruccion actual
      * @param inst la instrucción a ejecutar, que puede ser un OPcode, un valor a pushear o una instrucción de control de flujo
+     * @exception RuntimeException si se encuentra una instrucción desconocida o si ocurre un error durante la ejecución de un OPcode
+     * @exception IllegalArgumentException si se encuentra una instrucción que no es un OPcode registrado, un valor a pushear o una instrucción de control de flujo válida
+     * @exception NumberFormatException si el número no está dentro del rango de OP_2 a OP_16
      */
     private void ejecutar(String inst) {
 
@@ -145,6 +152,7 @@ public class Interpreter {
     }
     /**
      * Verifica si el bloque actual de ejecución está dentro de un OP_IF o OP_NOTIF que se evalúa como verdadero. 
+     * @return true si el bloque está vacío o si el bloque superior del stack es verdadero, false si el bloque superior del stack es falso
      */
     private boolean existeIF(){
         return stackFlujo.isEmpty() || stackFlujo.peek();
@@ -152,6 +160,7 @@ public class Interpreter {
     /**
      * Maneja las instrucciones de control de flujo OP_IF, OP_NOTIF, OP_ELSE y OP_ENDIF. 
      * @param inst la instrucción de control de flujo a manejar (OP_IF, OP_NOTIF, OP_ELSE, OP_ENDIF)
+     * @exception RuntimeException si se encuentra un OP_ELSE o OP_ENDIF sin un OP_IF correspondiente
      */
     private void manejarFlujo(String inst){
         if (inst.equals("OP_IF")) {
@@ -177,7 +186,7 @@ public class Interpreter {
     /**
      * Convierte una cadena hexadecimal a un arreglo de bytes.
      * @param hex la cadena hexadecimal a convertir
-     * @return byte[] el arreglo de bytes resultante de la conversión 
+     * @return byte[] data, el arreglo de bytes resultante de la conversión 
      */
     private byte[] hexToBytes(String hex) {
         byte[] data = new byte[hex.length() / 2];
@@ -191,6 +200,7 @@ public class Interpreter {
     /**
      * Devuelve si el top del stack es true si es un valor diferente de cero 
      * Se movio de clase Stack ya que al hacer Stack generic no se puede utilizar al depender de que sean bytes.
+     * @return true si el top del stack es un valor diferente de cero, false si es cero o si la pila está vacía
      */
 
     private boolean popBoolean() {

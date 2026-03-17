@@ -4,6 +4,7 @@
  * @author Alejandro Sagastume    25257
  * @author Jimena Vásquez         25092
  * @file Clase Main que inicia el programa, lee un archivo de texto con un script Bitcoin y lo evalúa usando la clase ManagerPDF.
+ * @version 2.0
  */
 
 package org.script;
