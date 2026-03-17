@@ -2,7 +2,15 @@ package org.script;
 
 import java.security.MessageDigest;
 
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 public class CryptoOperations {
+
+    static {
+        // Agregar el proveedor de seguridad de Bouncy Castle para usar RIPEMD-160
+        java.security.Security.addProvider(new BouncyCastleProvider());
+    }
+
     /**
      * Realiza un hash SHA-256 seguido de otro SHA-256 (hash256) sobre los datos proporcionados.
      * @param data los datos a hashear
@@ -26,7 +34,7 @@ public class CryptoOperations {
     public static byte[] hash160(byte[] data) {
         try {
             MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-            MessageDigest ripemd160 = MessageDigest.getInstance("RIPEMD160");
+            MessageDigest ripemd160 = MessageDigest.getInstance("RIPEMD160", "BC");
             byte[] hash1 = sha256.digest(data);
             byte[] hash2 = ripemd160.digest(hash1);
             return hash2;

@@ -62,6 +62,24 @@ public class OPcodeOperations {
         ScriptStack.push(hash);
     }
 
+        /**
+     * Realiza un hash SHA-256 sobre los datos en la cima de la pila.
+     */
+    public void OP_SHA256(Stack<byte[]> ScriptStack) {
+        byte[] data = ScriptStack.pop();
+        byte[] hash = CryptoOperations.hash256(data);
+        ScriptStack.push(hash);
+    }
+
+    /**
+     * Realiza un hash SHA-256 doble sobre los datos en la cima de la pila.
+     */
+    public void OP_HASH256(Stack<byte[]> ScriptStack) {
+        byte[] data = ScriptStack.pop();
+        byte[] hash = CryptoOperations.hash256(data);
+        ScriptStack.push(hash);
+    }
+
     public void OP_CHECKSIG(Stack<byte[]> ScriptStack) {
         byte[] pubKey = ScriptStack.pop();
         byte[] signature = ScriptStack.pop();

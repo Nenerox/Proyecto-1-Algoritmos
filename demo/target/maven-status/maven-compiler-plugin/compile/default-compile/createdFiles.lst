@@ -1,0 +1,7 @@
+org\script\OPcode.class
+org\script\OPcodeOperations.class
+org\script\Stack.class
+org\script\TXTReader.class
+org\script\Interpreter.class
+org\script\Main.class
+org\script\CryptoOperations.class

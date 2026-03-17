@@ -36,6 +36,8 @@ public class Interpreter {
         tablaOpCodes.put("OP_ADD", operations::OP_ADD);
         tablaOpCodes.put("OP_SUB", operations::OP_SUB);
         tablaOpCodes.put("OP_NUMEQUALVERIFY", operations::OP_NUMEQUALVERIFY);
+        tablaOpCodes.put("OP_SHA256", operations::OP_SHA256);
+        tablaOpCodes.put("OP_HASH256", operations::OP_HASH256);
     }
 
     /**
@@ -70,7 +72,7 @@ public class Interpreter {
             return true;
          } else {
             byte[] top = scriptStack.peek();
-            return !Arrays.equals(top, new byte[] {0})
+            return !Arrays.equals(top, new byte[] {0});
         }
     }
 
