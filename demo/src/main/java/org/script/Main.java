@@ -14,12 +14,12 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("╔════════════════════════════════════════╗");
-        System.out.println("║  BITCOIN SCRIPT INTERPRETER - Fase 1   ║");
+        System.out.println("║  BITCOIN SCRIPT INTERPRETER - Fase 2   ║");
         System.out.println("╚════════════════════════════════════════╝\n");
 
         // Read script from txt.file
         TXTReader reader = new TXTReader();
-        String ruta = "src/main/java/org/script/P2PKH_Correcto.txt"; 
+        String ruta = "demo/src/main/java/org/script/Operaciones.txt"; 
         String[] script = reader.leerArchivo(new File(ruta));
         System.out.println("Script cargado:");
         // Print the whole script in one line
