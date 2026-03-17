@@ -19,7 +19,7 @@ public class Main {
 
         // Read script from txt.file
         TXTReader reader = new TXTReader();
-        String ruta = "demo/src/main/java/org/script/Operaciones.txt"; 
+        String ruta = "src/main/java/org/script/Operaciones.txt"; 
         String[] script = reader.leerArchivo(new File(ruta));
         System.out.println("Script cargado:");
         // Print the whole script in one line
