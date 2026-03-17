@@ -1,7 +1,6 @@
 package org.script;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,7 +19,7 @@ public class OPCodesTest {
     public void testOP_0() {
         stack.push(new byte[]{0x01});
         operations.OP_0(stack);
-        assertArrayEquals(new byte[]{}, stack.pop());
+        assertArrayEquals(new byte[]{0x00}, stack.pop());
     }
 
     @Test
