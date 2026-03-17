@@ -38,6 +38,16 @@ public class Interpreter {
         tablaOpCodes.put("OP_NUMEQUALVERIFY", operations::OP_NUMEQUALVERIFY);
         tablaOpCodes.put("OP_SHA256", operations::OP_SHA256);
         tablaOpCodes.put("OP_HASH256", operations::OP_HASH256);
+        tablaOpCodes.put("OP_LESSTHAN", operations::OP_LESSTHAN);
+        tablaOpCodes.put("OP_BOOLAND", operations::OP_BOOLAND);
+        tablaOpCodes.put("OP_BOOLOR", operations::OP_BOOLOR);
+        tablaOpCodes.put("OP_NOT", operations::OP_NOT);
+        tablaOpCodes.put("OP_OVER", operations::OP_OVER);
+        tablaOpCodes.put("OP_SWAP", operations::OP_SWAP);
+        tablaOpCodes.put("OP_GREATERTHAN", operations::OP_GREATERTHAN);
+        tablaOpCodes.put("OP_LESSTHANOREQUAL", operations::OP_LESSTHANOREQUAL);
+        tablaOpCodes.put("OP_GREATERTHANOREQUAL", operations::OP_GREATERTHANOREQUAL);
+        tablaOpCodes.put("OP_CHECKSIGVERIFY", operations::OP_CHECKSIGVERIFY);
     }
 
     /**
@@ -46,26 +56,24 @@ public class Interpreter {
      * @return true si el resultado final en la stack es verdadero, false si es falso o si ocurre algún error durante la ejecución
      */
     public boolean evaluateScript(String[] script) {
-        try {
-            for (String inst : script) {
-                if (inst.equals("NL")){
-                    System.out.println("Resultado del script: " + resultadoFinal() + "\n");
-                    System.out.println("Nueva linea de instrucciones. Limpiando pilas.");
-                }   else {
-                    System.out.println("Instruccion realizada: " + inst);
-                }
-                ejecutar(inst);
-                System.out.println(scriptStack.trace()+"\n");
-
+    try {
+        for (String inst : script) {
+            if (inst.equals("NL")){
+                System.out.println("Resultado del script: " + resultadoFinal() + "\n");
+                System.out.println("Nueva linea de instrucciones. Limpiando pilas.");
+            }   else {
+                System.out.println("Instruccion realizada: " + inst);
             }
-
-        if (scriptStack.isEmpty());
-            return true;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return false;
+            ejecutar(inst);
+            System.out.println(scriptStack.trace()+"\n");
         }
+
+        return resultadoFinal();
+    } catch (Exception e) {
+        System.out.println("Error: " + e.getMessage());
+        return false;
     }
+}
 
     private boolean resultadoFinal() {
          if (scriptStack.isEmpty()){

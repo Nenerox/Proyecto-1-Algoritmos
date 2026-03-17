@@ -93,12 +93,27 @@ public class OPcodeOperations {
         }
     }
 
+    public void OP_CHECKSIGVERIFY(Stack<byte[]> ScriptStack) {
+        OP_CHECKSIG(ScriptStack);
+        if (!popBoolean(ScriptStack)) {
+            throw new RuntimeException("OP_CHECKSIGVERIFY failed");
+        }
+    }
+
     /*
      * TODO - Fase 2:
-     * OP_SWAP, OP_OVER, OP_NOT, OP_BOOLAND, OP_BOOLOR
-     * OP_ADD, OP_SUB, OP_NUMEQUALVERIFY
-     * OP_LESSTHAN, OP_GREATERTHAN
-     * OP_LESSTHANOREQUAL, OP_GREATERTHANOREQUAL
+     * OP_SWAP, si
+     * OP_OVER, si
+     * OP_NOT, si
+     * OP_BOOLAND, si
+     * OP_BOOLOR si
+     * OP_ADD, si
+     * OP_SUB, si
+     * OP_NUMEQUALVERIFY, si
+     * OP_LESSTHAN, si
+     * OP_GREATERTHAN, si
+     * OP_LESSTHANOREQUAL, SI
+     * OP_GREATERTHANOREQUAL no
      */
     
     public void OP_SWAP(Stack<byte[]> ScriptStack) {
@@ -123,6 +138,31 @@ public class OPcodeOperations {
             ScriptStack.push(new byte[] {0});
         }
     }
+
+    public void OP_BOOLAND(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        boolean aVal = !Arrays.equals(a, new byte[]{0});
+        boolean bVal = !Arrays.equals(b, new byte[]{0});
+        if (aVal && bVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
+    public void OP_BOOLOR(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        boolean aVal = !Arrays.equals(a, new byte[]{0});
+        boolean bVal = !Arrays.equals(b, new byte[]{0});
+        if (aVal || bVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
     public void OP_ADD(Stack<byte[]> ScriptStack) {
         byte[] a = ScriptStack.pop();
         byte[] b = ScriptStack.pop();
@@ -160,7 +200,6 @@ public class OPcodeOperations {
         ScriptStack.push(Arrays.copyOf(result, len));
     }
     public void OP_NUMEQUALVERIFY(Stack<byte[]> ScriptStack) {
-        // OP_NUMEQUAL con OP_VERIFY
         byte[] a = ScriptStack.pop();
         byte[] b = ScriptStack.pop();
         if (Arrays.equals(a, b)) {
@@ -171,5 +210,63 @@ public class OPcodeOperations {
         if (!popBoolean(ScriptStack)) {
             throw new RuntimeException("OP_NUMEQUALVERIFY failed");
         }
+    }
+
+    public void OP_LESSTHAN(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        int aVal = bytesToInt(a);
+        int bVal = bytesToInt(b);
+        if (bVal < aVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
+    public void OP_GREATERTHAN(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        int aVal = bytesToInt(a);
+        int bVal = bytesToInt(b);
+        if (bVal > aVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
+    public void OP_LESSTHANOREQUAL(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        int aVal = bytesToInt(a);
+        int bVal = bytesToInt(b);
+        if (bVal <= aVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
+    public void OP_GREATERTHANOREQUAL(Stack<byte[]> ScriptStack) {
+        byte[] a = ScriptStack.pop();
+        byte[] b = ScriptStack.pop();
+        int aVal = bytesToInt(a);
+        int bVal = bytesToInt(b);
+        if (bVal >= aVal) {
+            ScriptStack.push(new byte[]{1});
+        } else {
+            ScriptStack.push(new byte[]{0});
+        }
+    }
+
+        // Convierte un arreglo de bytes a un entero, asumiendo que el arreglo representa un número en formato little-endian.
+    private int bytesToInt(byte[] bytes) {
+    if (bytes.length == 0) return 0;
+    int result = 0;
+    for (int i = 0; i < bytes.length && i < 4; i++) {
+        result |= (bytes[i] & 0xFF) << (8 * i);
+    }
+    return result;
     }
 }

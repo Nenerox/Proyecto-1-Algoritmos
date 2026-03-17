@@ -54,4 +54,5 @@ public class CryptoOperations {
         if (publicKey.length != 33 && publicKey.length != 65) return false;
         return true;
     }
+
 }
