@@ -221,4 +221,3 @@ El `Interpreter`:
 ## Curso
 **CC2003 - Sección 20 - Algoritmos y Estructura de Datos**  
 Universidad del Valle de Guatemala  
-Hoja de Trabajo No. 2
