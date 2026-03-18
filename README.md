@@ -12,8 +12,8 @@ En la **Fase 2** el intérprete se amplía agregando:
 
 ## Autores
 - **Andrés Pineda** - 25212 - pin25212@uvg.edu.gt  
-- **Alejandro Sagastume** - 25257 - vas25092@uvg.edu.gt  
-- **Jimena Vásquez** - 25092 - sag25257@uvg.edu.gt  
+- **Alejandro Sagastume** - 25257 - sag25257@uvg.edu.gt  
+- **Jimena Vásquez** - 25092 - vas25092@uvg.edu.gt  
 
 ---
 
@@ -133,9 +133,6 @@ cd Proyecto-1-Algoritmos/demo
 ```bash
 mvn clean compile
 ```
-
-> Nota: El `pom.xml` no incluye el `exec-maven-plugin`.  
-> Si tu Maven no tiene configurada ejecución directa, usa la opción “Sin Maven” para ejecutar.
 
 ### 3) Ejecutar (sin Maven)
 ```bash
