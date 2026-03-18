@@ -1,164 +1,221 @@
-# Bitcoin Script Interpreter - Proyecto 1
+# Bitcoin Script Interpreter - Proyecto 1 (Fase 2)
 
 ## Descripción
-Implementación de un intérprete de Bitcoin Script en Java que ejecuta y valida transacciones de Bitcoin. Este proyecto simula el funcionamiento de la máquina virtual de Bitcoin, procesando instrucciones de script y validando transacciones P2PKH (Pay to Public Key Hash).
+Este proyecto es un intérprete de Bitcoin Script en Java que procesa instrucciones tipo OPcode usando una pila (*stack*). Simula el comportamiento básico de la máquina de scripts de Bitcoin para ejecutar y validar scripts, incluyendo un ejemplo estilo P2PKH (Pay to Public Key Hash).
+
+En la **Fase 2** el intérprete se amplía agregando:
+- **Más OPcodes** (aritméticos, lógicos, comparaciones, criptografía extra y verificación)
+- **Control de flujo** con `OP_IF`, `OP_NOTIF`, `OP_ELSE`, `OP_ENDIF`
+- Ejecución de **múltiples scripts** desde un mismo archivo, separados por líneas (se usa internamente el token `NL`)
+
+---
 
 ## Autores
-- **Andrés Pineda** - 25212 - [pin25212@uvg.edu.gt]
-- **Alejandro Sagastume** - 25257 - [vas25092@uvg.edu.gt]
-- **Jimena Vásquez** - 25092 - [sag25257@uvg.edu.gt]
+- **Andrés Pineda** - 25212 - pin25212@uvg.edu.gt  
+- **Alejandro Sagastume** - 25257 - vas25092@uvg.edu.gt  
+- **Jimena Vásquez** - 25092 - sag25257@uvg.edu.gt  
+
+---
 
 ## Características
 
-### Fase 1 (Implementada)
+### Fase 1 (base)
 - Lectura de scripts desde archivo `.txt`
-- Interpretación de OPcodes básicos de Bitcoin
-- Validación de transacciones P2PKH
-- Manejo de stack (pila) para operaciones
-- Operaciones criptográficas (HASH160, CHECKSIG)
+- Manejo de pila (stack) para operar con datos
+- Soporte de datos hexadecimales en formato `<...>`
+- Validación simplificada estilo P2PKH (ejemplo con `DUP`, `HASH160`, `EQUALVERIFY`, `CHECKSIG`)
 
-### OPcodes Implementados
-| OPcode | Descripción |
-|--------|-------------|
-| `OP_0` | Push valor 0 (false) al stack |
-| `OP_1` | Push valor 1 (true) al stack |
-| `OP_2` - `OP_16` | Push valores 2-16 al stack |
-| `OP_PUSHDATA` | Push datos hexadecimales al stack |
-| `OP_DUP` | Duplica el elemento superior del stack |
-| `OP_DROP` | Elimina el elemento superior del stack |
-| `OP_EQUAL` | Compara dos elementos superiores del stack |
-| `OP_EQUALVERIFY` | OP_EQUAL + verifica resultado |
-| `OP_HASH160` | Aplica SHA-256 + RIPEMD-160 |
-| `OP_CHECKSIG` | Verifica firma digital |
+### Fase 2 (implementada)
+- Control de flujo: `OP_IF`, `OP_NOTIF`, `OP_ELSE`, `OP_ENDIF`
+- Lógica: `OP_BOOLAND`, `OP_BOOLOR`, `OP_NOT`
+- Aritmética: `OP_ADD`, `OP_SUB`
+- Comparaciones: `OP_LESSTHAN`, `OP_GREATERTHAN`, `OP_LESSTHANOREQUAL`, `OP_GREATERTHANOREQUAL`, `OP_NUMEQUALVERIFY`
+- Criptografía extra: `OP_SHA256`, `OP_HASH256`
+- Verificación extra: `OP_CHECKSIGVERIFY`
+- Operaciones de stack: `OP_SWAP`, `OP_OVER`
+
+---
+
+## OPcodes soportados (implementación actual)
+
+### Push / datos
+- `OP_0`
+- `OP_1`
+- `OP_2` a `OP_16` *(se manejan como caso especial dentro del intérprete)*
+- `OP_PUSHDATA` *(datos hex entre `< >`)*
+
+### Stack
+- `OP_DUP`
+- `OP_DROP`
+- `OP_SWAP`
+- `OP_OVER`
+
+### Igualdad / verificación
+- `OP_EQUAL`
+- `OP_EQUALVERIFY`
+- `OP_VERIFY` *(manejado directamente por el intérprete)*
+- `OP_NUMEQUALVERIFY`
+- `OP_RETURN` *(detiene la ejecución con error)*
+
+### Criptografía y firmas
+- `OP_HASH160`
+- `OP_SHA256`
+- `OP_HASH256`
+- `OP_CHECKSIG`
+- `OP_CHECKSIGVERIFY`
+
+### Aritmética y lógica
+- `OP_ADD`
+- `OP_SUB`
+- `OP_NOT`
+- `OP_BOOLAND`
+- `OP_BOOLOR`
+
+### Comparaciones numéricas
+- `OP_LESSTHAN`
+- `OP_GREATERTHAN`
+- `OP_LESSTHANOREQUAL`
+- `OP_GREATERTHANOREQUAL`
+
+### Control de flujo
+- `OP_IF`
+- `OP_NOTIF`
+- `OP_ELSE`
+- `OP_ENDIF`
+
+---
 
 ## Estructura del Proyecto
+
+> **Importante:** trabajar/compilar desde la carpeta `demo/`.
 
 ```
 Proyecto-1-Algoritmos/
 │
-├── demo/            ← TRABAJAR SIEMPRE DESDE AQUÍ
+├── demo/
 │   ├── src/
 │   │   └── main/
 │   │       └── java/
 │   │           └── org/
 │   │               └── script/
-│   │                   ├── Main.java                  # Punto de entrada
-│   │                   ├── Interpreter.java           # Intérprete principal
-│   │                   ├── OPcodeOperations.java      # Implementación de OPcodes
-│   │                   ├── OPcode.java                # Interface para OPcodes
-│   │                   ├── Stack.java                 # Estructura de datos Stack
-│   │                   ├── CryptoOperations.java      # Operaciones criptográficas
-│   │                   └── TXTReader.java             # Lector de archivos
+│   │                   ├── Main.java                # Punto de entrada
+│   │                   ├── Interpreter.java         # Intérprete principal
+│   │                   ├── OPcodeOperations.java    # Implementación de OPcodes
+│   │                   ├── OPcode.java              # Interface funcional para OPcodes
+│   │                   ├── Stack.java               # Estructura de datos Stack
+│   │                   ├── CryptoOperations.java    # Operaciones criptográficas
+│   │                   ├── TXTReader.java           # Lector del archivo de scripts
+│   │                   └── Operaciones.txt          # Scripts de prueba (varias líneas)
 │   │
-│   ├── script.txt                                     # Script de ejemplo
-│   └── pom.xml                                        # Configuración Maven
+│   └── pom.xml                                      # Configuración Maven
 │
 └── README.md
 ```
 
-## Requisitos
+---
 
-- **Java:** JDK 17 o superior
-- **Maven:** 3.6+ (opcional)
-- **IDE recomendado:** IntelliJ IDEA, Eclipse, o VS Code
+## Requisitos
+- **Java:** JDK 17 o superior  
+- **Maven:** 3.6+ (recomendado)  
+- IDE recomendado: IntelliJ IDEA / Eclipse / VS Code  
+
+---
 
 ## Instalación y Ejecución
 
-### 1. Clonar el repositorio
+### 1) Clonar el repositorio
 ```bash
 git clone https://github.com/Nenerox/Proyecto-1-Algoritmos.git
 cd Proyecto-1-Algoritmos/demo
 ```
 
-### 2. Compilar el proyecto
-
-#### Opción A: Con Maven
+### 2) Compilar (con Maven)
 ```bash
 mvn clean compile
-mvn exec:java -Dexec.mainClass="org.script.Main"
 ```
 
-#### Opción B: Sin Maven
+> Nota: El `pom.xml` no incluye el `exec-maven-plugin`.  
+> Si tu Maven no tiene configurada ejecución directa, usa la opción “Sin Maven” para ejecutar.
+
+### 3) Ejecutar (sin Maven)
 ```bash
-# Compilar
+# Compilar (desde demo/)
 javac -d bin src/main/java/org/script/*.java
 
 # Ejecutar
 java -cp bin org.script.Main
 ```
 
-### 3. Usar tu propio script
-Edita el archivo `script.txt` con tu Bitcoin Script:
+---
+
+## Archivo de scripts: `Operaciones.txt`
+
+El programa (desde `Main.java`) lee el archivo:
+
+`src\main\java\org\script\Operaciones.txt`
+
+### ¿Cómo se procesan varias líneas?
+- `TXTReader` lee el archivo **línea por línea**
+- ignora comentarios (líneas que comienzan con `#`) y líneas vacías
+- concatena cada línea agregando un separador interno `NL`
+- el `Interpreter` detecta `NL` para:
+  - imprimir resultado del script de esa línea
+  - limpiar pilas
+  - continuar con la siguiente línea
+
+### Ejemplo de contenido (formato)
+Un script P2PKH típico se ve así:
 
 ```
 <firma> <clave_publica> OP_DUP OP_HASH160 <hash_esperado> OP_EQUALVERIFY OP_CHECKSIG
 ```
 
+---
+
 ## Formato del Script
+- **Datos hexadecimales:** entre `< >` (ejemplo: `<ABCDEF>`)
+- **OPcodes:** en mayúsculas con prefijo `OP_`
+- **Comentarios:** líneas que empiezan con `#` se ignoran
+- **Espacios:** separan instrucciones y datos
 
-### Ejemplo de script P2PKH válido:
-```
-<0101010101...> <0202020202...> OP_DUP OP_HASH160 <A9A8D4AE65DE409A1EF6AB6608F0CE3FED019438> OP_EQUALVERIFY OP_CHECKSIG
-```
+---
 
-### Reglas de formato:
-- **Datos hexadecimales:** Entre `< >` (ejemplo: `<ABCDEF>`)
-- **OPcodes:** En mayúsculas con prefijo `OP_`
-- **Comentarios:** Líneas que empiezan con `#` son ignoradas
-- **Espacios:** Pueden usarse para separar instrucciones
+## Cómo Funciona (resumen)
+Flujo general:
 
-## Cómo Funciona
-
-### 1. Flujo de ejecución
 ```
 Usuario → Main → TXTReader → Interpreter → OPcodeOperations → Stack
 ```
 
-### 2. Proceso de validación P2PKH
-1. **Push firma y clave pública** al stack
-2. **OP_DUP**: Duplica la clave pública
-3. **OP_HASH160**: Hashea la clave pública
-4. **Push hash esperado** al stack
-5. **OP_EQUALVERIFY**: Verifica que los hashes coincidan
-6. **OP_CHECKSIG**: Verifica la firma digital
+El `Interpreter`:
+- registra los OPcodes en un `Map<String, OPcode>`
+- procesa cada token del script en orden
+- reconoce:
+  - datos hex `<...>` (push al stack)
+  - `OP_2` a `OP_16`
+  - control de flujo (`OP_IF`, `OP_NOTIF`, `OP_ELSE`, `OP_ENDIF`)
+  - verificaciones (`OP_VERIFY`)
+- imprime la traza del stack después de cada instrucción
 
-### 3. Estructura del Stack (LIFO)
-```
-TOP → [último elemento]
-      [elemento 2]
-      [primer elemento] → BOTTOM
-```
-
-## Fase 2 (Próximamente)
-
-### OPcodes a implementar:
-- `OP_SWAP` - Intercambia dos elementos superiores
-- `OP_OVER` - Copia el segundo elemento al top
-- `OP_NOT` - Invierte booleano
-- `OP_BOOLAND` - AND lógico
-- `OP_BOOLOR` - OR lógico
-- `OP_ADD` / `OP_SUB` - Operaciones aritméticas
-- `OP_LESSTHAN` / `OP_GREATERTHAN` - Comparaciones numéricas
-- `OP_NUMEQUALVERIFY` - Verificación de igualdad numérica
+---
 
 ## Solución de Problemas
 
-### Error: "FileNotFoundException"
-**Causa:** El archivo `script.txt` no se encuentra
-**Solución:** Verifica que `script.txt` esté en el directorio raíz del proyecto
-
-### Error: "OP_EQUALVERIFY failed"
-**Causa:** El hash de la clave pública no coincide con el hash esperado
-**Solución:** Verifica que los datos hexadecimales sean correctos
+### Error: "FileNotFoundException" / no se lee `Operaciones.txt`
+**Causa común:** ejecutar desde un directorio distinto a `demo/` (y la ruta relativa deja de coincidir).  
+**Solución:** asegúrate de estar en `Proyecto-1-Algoritmos/demo` antes de compilar/ejecutar.
 
 ### Error: "Instrucción desconocida"
-**Causa:** OPcode no implementado o mal escrito
-**Solución:** Revisa la lista de OPcodes soportados
+**Causa:** opcode no implementado o mal escrito.  
+**Solución:** revisa que el token coincida exactamente con los opcodes soportados listados arriba.
 
+### Error: "OP_EQUALVERIFY failed" / "OP_NUMEQUALVERIFY failed" / "OP_CHECKSIGVERIFY failed"
+**Causa:** la condición verificada resultó falsa.  
+**Solución:** revisa el orden de los pushes y de las operaciones (y que los datos sean correctos).
 
+---
 
 ## Curso
-
 **CC2003 - Sección 20 - Algoritmos y Estructura de Datos**  
 Universidad del Valle de Guatemala  
 Hoja de Trabajo No. 2
