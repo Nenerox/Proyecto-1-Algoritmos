@@ -94,20 +94,26 @@ Proyecto-1-Algoritmos/
 │
 ├── demo/
 │   ├── src/
-│   │   └── main/
+│   │   ├── main/
+│   │   │   └── java/
+│   │   │       └── org/
+│   │   │           └── script/
+│   │   │               ├── Main.java                # Punto de entrada
+│   │   │               ├── Interpreter.java         # Intérprete principal
+│   │   │               ├── OPcodeOperations.java    # Implementación de OPcodes
+│   │   │               ├── OPcode.java              # Interface funcional para OPcodes
+│   │   │               ├── Stack.java               # Estructura de datos Stack
+│   │   │               ├── CryptoOperations.java    # Operaciones criptográficas
+│   │   │               ├── TXTReader.java           # Lector del archivo de scripts
+│   │   │               └── Operaciones.txt          # Scripts de prueba (varias líneas)
+│   │   │
+│   │   └── test/
 │   │       └── java/
 │   │           └── org/
 │   │               └── script/
-│   │                   ├── Main.java                # Punto de entrada
-│   │                   ├── Interpreter.java         # Intérprete principal
-│   │                   ├── OPcodeOperations.java    # Implementación de OPcodes
-│   │                   ├── OPcode.java              # Interface funcional para OPcodes
-│   │                   ├── Stack.java               # Estructura de datos Stack
-│   │                   ├── CryptoOperations.java    # Operaciones criptográficas
-│   │                   ├── TXTReader.java           # Lector del archivo de scripts
-│   │                   └── Operaciones.txt          # Scripts de prueba (varias líneas)
+│   │                   ├── OPcodesTest.java         # Pruebas de opcodes
 │   │
-│   └── pom.xml                                      # Configuración Maven
+│   └── pom.xml                                      # Configuración Maven (incluye JUnit)
 │
 └── README.md
 ```
